@@ -16,6 +16,9 @@ public class PracticalTest01MainActivity extends ActionBarActivity {
     protected EditText left, right;
     protected Button leftButton, rightButton, nav;
     private final static int SECONDARY_REQUEST_CODE = 2000;
+    protected final static int[] butoane = {
+            R.id.button3, R.id.button4, R.id.button5
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -47,6 +50,10 @@ public class PracticalTest01MainActivity extends ActionBarActivity {
                     break;
                 case R.id.button2:
                     right.setText(String.valueOf(Integer.parseInt(right.getText().toString())+1));
+                    break;
+                case R.id.button5:
+                    ((Button)v).setBackground(getResources().getDrawable(R.color.green));
+                    ((Button)v).setText("ALALAL");
                     break;
                 case R.id.button:
                     Intent intent = new Intent(PracticalTest01MainActivity.this, PracticalTest01SecondaryActivity.class);
@@ -101,7 +108,10 @@ public class PracticalTest01MainActivity extends ActionBarActivity {
             right.setText(String.valueOf(rightClicks));
         }
 
-
+        for(int k = 0; k<butoane.length; k++){
+            Button b = (Button)findViewById(butoane[k]);
+            b.setOnClickListener(but);
+        }
 
     }
 
