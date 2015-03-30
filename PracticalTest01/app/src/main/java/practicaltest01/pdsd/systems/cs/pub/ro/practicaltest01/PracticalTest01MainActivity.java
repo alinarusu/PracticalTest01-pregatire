@@ -1,6 +1,9 @@
 package practicaltest01.pdsd.systems.cs.pub.ro.practicaltest01;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PaintDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,9 +19,14 @@ public class PracticalTest01MainActivity extends ActionBarActivity {
     protected EditText left, right;
     protected Button leftButton, rightButton, nav;
     private final static int SECONDARY_REQUEST_CODE = 2000;
+
+    //pentru mai multe butoane pe care le pun intr-un vector
     protected final static int[] butoane = {
             R.id.button3, R.id.button4, R.id.button5
     };
+
+    // 2. instantiere clasa ascultator:
+    protected ButtonClickListener but = new ButtonClickListener();
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -27,16 +35,10 @@ public class PracticalTest01MainActivity extends ActionBarActivity {
 
         switch (requestCode){
             case SECONDARY_REQUEST_CODE:
-
+                Toast.makeText(this, "result = " + resultCode, Toast.LENGTH_LONG).show();
         }
-
-        Toast.makeText(this, "result = " + resultCode, Toast.LENGTH_LONG).show();
     }// apelata cand activitatea secundara apeleeaza setResult si finish una dupa alta
 
-
-
-    // 2. instantiere clasa ascultator:
-    protected ButtonClickListener but = new ButtonClickListener();
 
 
     // 1. Implementare clasa ascultator
@@ -52,9 +54,34 @@ public class PracticalTest01MainActivity extends ActionBarActivity {
                     right.setText(String.valueOf(Integer.parseInt(right.getText().toString())+1));
                     break;
                 case R.id.button5:
-                    ((Button)v).setBackground(getResources().getDrawable(R.color.green));
-                    ((Button)v).setText("ALALAL");
+
+                    //((Button)v).setBackground(getResources().getDrawable(R.color.red));
+
+
+                    Button button = (Button)v;
+                    int buttonColor = ((ColorDrawable)button.getBackground()).getColor();
+                    final int COLOR_RED = getResources().getColor(R.color.red);
+                    final int COLOR_GREEN = getResources().getColor(R.color.green);
+                    final int COLOR_BLUE = getResources().getColor(R.color.blue);
+                    if (buttonColor == COLOR_RED) {
+                        button.setBackgroundColor(COLOR_GREEN);
+                    } else if (buttonColor == COLOR_GREEN) {
+                        button.setBackgroundColor(COLOR_BLUE);
+                    } else if (buttonColor == COLOR_BLUE) {
+                        button.setBackgroundColor(COLOR_RED);
+                    }
+
+
+
+
+                    if(  ((Button)v).getText() == "New Button" )
+                    {
+                        ((Button)v).setText("ALALAL");
+                    }
+                        else
+                            ((Button)v).setText("New Button");
                     break;
+
                 case R.id.button:
                     Intent intent = new Intent(PracticalTest01MainActivity.this, PracticalTest01SecondaryActivity.class);
                     intent.putExtra("noOfClicks",
@@ -67,6 +94,7 @@ public class PracticalTest01MainActivity extends ActionBarActivity {
             }
         }
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
